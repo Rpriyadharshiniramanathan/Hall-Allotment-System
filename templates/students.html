@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Students</h1>
+</div>
+
+<div class="form-card">
+    <h3 style="margin-bottom: 1.5rem;">Add New Student</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label class="form-label">Select Class</label>
+            <select name="class_id" class="form-control" required>
+                <option value="">-- Select Class --</option>
+                {% for c in classes %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label class="form-label">Roll Number</label>
+                <input type="text" name="roll_number" class="form-control" required placeholder="e.g., CS001">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Student Name</label>
+                <input type="text" name="name" class="form-control" required placeholder="e.g., John Doe">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Student</button>
+    </form>
+</div>
+
+<div class="form-card" style="margin-bottom: 2rem; border-color: var(--accent-color);">
+    <h3 style="margin-bottom: 1.5rem; color: var(--accent-color);"><i class="fa-solid fa-file-csv"></i> Bulk Import via CSV</h3>
+    <form method="POST" enctype="multipart/form-data">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Select Class for Import</label>
+                <select name="csv_class_id" class="form-control" required>
+                    <option value="">-- Select Class --</option>
+                    {% for c in classes %}
+                    <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Upload CSV File</label>
+                <input type="file" name="csv_file" accept=".csv" class="form-control" required style="padding: 0.5rem 1rem;">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">Import Students</button>
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Class</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in students %}
+            <tr>
+                <td><strong>{{ s.roll_number }}</strong></td>
+                <td>{{ s.name }}</td>
+                <td><span class="badge badge-warning">{{ s.class_name }}</span></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center; color: var(--text-secondary);">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

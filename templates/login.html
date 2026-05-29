@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EHAS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Apply saved theme BEFORE render to avoid flash -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('ehas-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+
+    <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            background: var(--bg-gradient);
+            transition: background 0.3s ease;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--surface-color);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+        .login-brand {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Theme Toggle -->
+    <div class="floating-toggle">
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+            <span class="toggle-icon" id="toggleIcon">☀️</span>
+            <span id="toggleLabel">Light Mode</span>
+        </button>
+    </div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-brand">
+                <i class="fa-solid fa-graduation-cap"></i> EHAS
+            </div>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" style="text-align: left;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}" style="text-align: left;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+            </form>
+            
+            <div style="margin-top: 2rem; color: var(--text-secondary);">
+                Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('ehas-theme', theme);
+            const icon = document.getElementById('toggleIcon');
+            const label = document.getElementById('toggleLabel');
+            if (theme === 'light') {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark Mode';
+            } else {
+                icon.textContent = '☀️';
+                label.textContent = 'Light Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        }
+
+        // Sync button label on page load
+        (function () {
+            const saved = localStorage.getItem('ehas-theme') || 'dark';
+            applyTheme(saved);
+        })();
+    </script>
+</body>
+</html>

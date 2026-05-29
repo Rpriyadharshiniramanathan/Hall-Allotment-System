@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">System Overview</h1>
+</div>
+
+<div class="card-grid">
+    <div class="stat-card">
+        <div class="stat-card-title">Total Halls</div>
+        <div class="stat-card-value">{{ total_halls }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-title">Total Capacity</div>
+        <div class="stat-card-value">{{ total_capacity }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-title">Registered Students</div>
+        <div class="stat-card-value">{{ total_students }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-title">Scheduled Exams</div>
+        <div class="stat-card-value">{{ total_exams }}</div>
+    </div>
+</div>
+
+<div class="table-card" style="padding: 2rem;">
+    <h2 style="margin-bottom: 1rem;">Welcome to EHAS</h2>
+    <p style="color: var(--text-secondary); line-height: 1.6;">
+        The Exam Hall Allotment System streamlines the process of allocating students to examination halls. 
+        Ensure you have created Departments, Classes, and Students before scheduling exams.
+    </p>
+</div>
+{% endblock %}

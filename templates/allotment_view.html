@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">Seating Allotment</h1>
+        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+            Subject: <strong>{{ exam.subject }}</strong> | Class: {{ exam.class_name }}<br>
+            Date: {{ exam.date }} | Time: {{ exam.start_time }} to {{ exam.end_time }}
+        </p>
+    </div>
+    <a href="{{ url_for('exams') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back to Exams</a>
+</div>
+
+{% if not allocations %}
+<div class="alert alert-danger">
+    No allocations found for this exam.
+</div>
+{% else %}
+
+<div class="card-grid" style="grid-template-columns: 1fr;">
+    {% for hall_id, data in allocations.items() %}
+    <div class="form-card" style="margin-bottom: 1.5rem; padding: 0;">
+        <div style="background: rgba(0,0,0,0.2); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; color: var(--accent-color);"><i class="fa-solid fa-door-open"></i> {{ data.hall_name }}</h3>
+            <span class="badge badge-success">{{ data.students|length }} Students Allocated</span>
+        </div>
+        
+        <div style="padding: 1.5rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                {% for student in data.students %}
+                <div style="background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.3rem;">{{ student.roll_number }}</div>
+                    <div style="font-weight: 500;">{{ student.name }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+
+{% endblock %}

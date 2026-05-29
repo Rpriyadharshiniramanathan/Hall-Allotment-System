@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Hall Allotment System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Apply saved theme BEFORE render to avoid flash -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('ehas-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            Exam Hall Allotment System
+        </div>
+        <nav>
+            <a href="{{ url_for('dashboard') }}"
+                class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="{{ url_for('departments') }}"
+                class="nav-link {% if request.endpoint == 'departments' %}active{% endif %}">
+                <i class="fa-solid fa-building"></i> Departments
+            </a>
+            <a href="{{ url_for('classes') }}" class="nav-link {% if request.endpoint == 'classes' %}active{% endif %}">
+                <i class="fa-solid fa-chalkboard-user"></i> Classes
+            </a>
+            <a href="{{ url_for('students') }}"
+                class="nav-link {% if request.endpoint == 'students' %}active{% endif %}">
+                <i class="fa-solid fa-user-graduate"></i> Students
+            </a>
+            <a href="{{ url_for('halls') }}" class="nav-link {% if request.endpoint == 'halls' %}active{% endif %}">
+                <i class="fa-solid fa-door-open"></i> Exam Halls
+            </a>
+            <a href="{{ url_for('exams') }}"
+                class="nav-link {% if request.endpoint == 'exams' or request.endpoint == 'view_allotment' %}active{% endif %}">
+                <i class="fa-solid fa-file-signature"></i> Exams &amp; Allotment
+            </a>
+
+            <div style="margin-top: auto; padding-top: 2rem;">
+                <!-- Theme Toggle -->
+                <div class="sidebar-toggle-wrap" style="margin-bottom: 1rem;">
+                    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">
+                        <span class="toggle-icon" id="toggleIcon">☀️</span>
+                        <span id="toggleLabel">Light Mode</span>
+                    </button>
+                </div>
+
+                <a href="{{ url_for('logout') }}" class="nav-link" style="color: var(--danger-color);">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('ehas-theme', theme);
+            const icon = document.getElementById('toggleIcon');
+            const label = document.getElementById('toggleLabel');
+            if (theme === 'light') {
+                icon.textContent = '🌙';
+                label.textContent = 'Dark Mode';
+            } else {
+                icon.textContent = '☀️';
+                label.textContent = 'Light Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        }
+
+        // Sync button label on page load
+        (function () {
+            const saved = localStorage.getItem('ehas-theme') || 'dark';
+            applyTheme(saved);
+        })();
+    </script>
+
+</body>
+
+</html>

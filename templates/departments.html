@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Departments</h1>
+</div>
+
+<div class="form-card">
+    <h3 style="margin-bottom: 1.5rem;">Add New Department</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label class="form-label">Department Name</label>
+            <input type="text" name="name" class="form-control" required placeholder="e.g., Computer Science">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Department</button>
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th style="width: 150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in departments %}
+            <tr>
+                <td><strong>{{ d.name }}</strong></td>
+                <td>
+                    <a href="{{ url_for('delete_department', dept_id=d.id) }}" class="btn btn-sm btn-danger" style="background-color: var(--danger-color); border: none;" onclick="return confirm('Are you sure you want to delete this department? This will also completely delete ALL classes and students within this department.');">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" style="text-align: center; color: var(--text-secondary);">No departments found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

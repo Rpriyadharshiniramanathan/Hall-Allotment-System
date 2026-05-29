@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Edit Class</h1>
+</div>
+
+<div class="form-card">
+    <form method="POST">
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-group">
+                <label class="form-label">Class Name</label>
+                <input type="text" name="name" class="form-control" value="{{ current_class.name }}" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Department</label>
+                <select name="department_id" class="form-control" required>
+                    {% for d in departments %}
+                    <option value="{{ d.id }}" {% if current_class.department_id == d.id %}selected{% endif %}>{{ d.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{{ url_for('classes') }}" class="btn btn-secondary" style="margin-left: 1rem; background: var(--border-color); color: var(--text-color); border: none;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

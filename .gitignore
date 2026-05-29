@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.pyo
+*.pyx
+*.pxd
+
+# Virtual environments
+venv/
+env/
+.env
+.venv/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Zip files
+*.zip
+
+# Logs
+*.log
+
+# Flask session
+flask_session/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets / Config
+*.env
+config.py
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
